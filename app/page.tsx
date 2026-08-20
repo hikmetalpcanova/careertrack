@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -19,9 +20,12 @@ export default async function Home() {
             </p>
           </div>
 
-          <button className="rounded-lg bg-black px-5 py-3 text-sm font-medium text-white">
-            + Add Application
-          </button>
+          <Link
+  href="/applications/new"
+  className="rounded-lg bg-black px-5 py-3 text-sm font-medium text-white"
+>
+  + Add Application
+</Link>
         </header>
 
         <section className="mb-10 grid gap-4 md:grid-cols-4">
@@ -73,11 +77,14 @@ export default async function Home() {
                 <div className="text-right">
                   <p className="text-sm font-medium">{application.status}</p>
                   <p className="text-sm text-gray-400">
-  {application.createdAt.toLocaleDateString("en-GB", {
+  {(application.appliedAt ?? application.createdAt).toLocaleDateString(
+  "en-GB",
+  {
     day: "2-digit",
     month: "short",
     year: "numeric",
-  })}
+  },
+)}
 </p>
                 </div>
               </div>
