@@ -40,5 +40,15 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+
+
+# Local AI coding agent files
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
 AGENTS.md
 CLAUDE.md
+
+# Generated Prisma Client
+/generated/prisma

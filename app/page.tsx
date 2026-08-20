@@ -1,25 +1,13 @@
-const applications = [
-  {
-    company: "Booking.com",
-    position: "Software Engineering Intern",
-    status: "Applied",
-    date: "18 Aug 2026",
-  },
-  {
-    company: "Spotify",
-    position: "Frontend Engineering Intern",
-    status: "Interview",
-    date: "15 Aug 2026",
-  },
-  {
-    company: "Microsoft",
-    position: "Software Engineering Intern",
-    status: "Saved",
-    date: "12 Aug 2026",
-  },
-];
+import prisma from "@/lib/prisma";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const applications = await prisma.application.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
   return (
     <main className="min-h-screen bg-gray-50 p-8 text-gray-900">
       <div className="mx-auto max-w-6xl">
@@ -37,10 +25,31 @@ export default function Home() {
         </header>
 
         <section className="mb-10 grid gap-4 md:grid-cols-4">
-          <StatCard title="Total Applications" value="12" />
-          <StatCard title="Applied" value="6" />
-          <StatCard title="Interviews" value="3" />
-          <StatCard title="Offers" value="1" />
+          <StatCard
+  title="Total Applications"
+  value={applications.length.toString()}
+/>
+
+<StatCard
+  title="Applied"
+  value={applications
+    .filter((application) => application.status === "APPLIED")
+    .length.toString()}
+/>
+
+<StatCard
+  title="Interviews"
+  value={applications
+    .filter((application) => application.status === "INTERVIEW")
+    .length.toString()}
+/>
+
+<StatCard
+  title="Offers"
+  value={applications
+    .filter((application) => application.status === "OFFER")
+    .length.toString()}
+/>
         </section>
 
         <section className="overflow-hidden rounded-xl border border-gray-200 bg-white">
@@ -51,7 +60,7 @@ export default function Home() {
           <div className="divide-y divide-gray-100">
             {applications.map((application) => (
               <div
-                key={application.company}
+                key={application.id}
                 className="flex items-center justify-between p-6"
               >
                 <div>
@@ -63,7 +72,13 @@ export default function Home() {
 
                 <div className="text-right">
                   <p className="text-sm font-medium">{application.status}</p>
-                  <p className="text-sm text-gray-400">{application.date}</p>
+                  <p className="text-sm text-gray-400">
+  {application.createdAt.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  })}
+</p>
                 </div>
               </div>
             ))}
