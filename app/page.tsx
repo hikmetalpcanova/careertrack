@@ -63,10 +63,11 @@ export default async function Home() {
 
           <div className="divide-y divide-gray-100">
             {applications.map((application) => (
-              <div
-                key={application.id}
-                className="flex items-center justify-between p-6"
-              >
+              <Link
+  key={application.id}
+  href={`/applications/${application.id}`}
+  className="flex items-center justify-between p-6 transition-colors hover:bg-gray-50"
+>
                 <div>
                   <h3 className="font-semibold">{application.company}</h3>
                   <p className="text-sm text-gray-500">
@@ -87,7 +88,7 @@ export default async function Home() {
 )}
 </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
