@@ -1,11 +1,26 @@
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import ApplicationList from "@/components/ApplicationList";
+import SignOutButton from "@/components/SignOutButton";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/sign-in");
+  }
+
   const applications = await prisma.application.findMany({
+    where: {
+      userId: session.user.id,
+    },
     orderBy: {
       createdAt: "desc",
     },
@@ -15,18 +30,27 @@ export default async function Home() {
       <div className="mx-auto max-w-6xl">
        <header className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold">CareerTrack</h1>
-            <p className="mt-1 text-gray-500">
-              Track your job and internship applications.
-            </p>
-          </div>
+  <h1 className="text-3xl font-bold">CareerTrack</h1>
 
-          <Link
-  href="/applications/new"
- className="w-full rounded-lg bg-black px-5 py-3 text-center text-sm font-medium text-white sm:w-auto"
->
-  + Add Application
-</Link>
+  <p className="mt-1 text-gray-500">
+    Track your job and internship applications.
+  </p>
+
+  <p className="mt-1 text-sm text-gray-500">
+    Signed in as {session.user.name}
+  </p>
+</div>
+
+          <div className="flex w-full gap-3 sm:w-auto">
+  <SignOutButton />
+
+  <Link
+    href="/applications/new"
+    className="flex-1 rounded-lg bg-black px-5 py-3 text-center text-sm font-medium text-white sm:flex-none"
+  >
+    + Add Application
+  </Link>
+</div>
         </header>
 
         <section className="mb-10 grid gap-4 md:grid-cols-4">

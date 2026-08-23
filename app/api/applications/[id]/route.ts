@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { ApplicationStatus } from "@/generated/prisma/enums";
 import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
 
 const validStatuses = new Set<string>(Object.values(ApplicationStatus));
 
@@ -9,12 +10,26 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const session = await auth.api.getSession({
+      headers: request.headers,
+    });
+
+    if (!session) {
+      return NextResponse.json(
+        { error: "Unauthorized." },
+        { status: 401 },
+      );
+    }
+
     const { id } = await params;
     const body = await request.json();
 
-    const existingApplication = await prisma.application.findUnique({
-      where: { id },
-    });
+    const existingApplication = await prisma.application.findFirst({
+  where: {
+    id,
+    userId: session.user.id,
+  },
+});
 
     if (!existingApplication) {
       return NextResponse.json(
@@ -121,22 +136,36 @@ export async function PATCH(
   }
 }
 export async function DELETE(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id } = await params;
-
-    const existingApplication = await prisma.application.findUnique({
-      where: { id },
+    const session = await auth.api.getSession({
+      headers: request.headers,
     });
 
-    if (!existingApplication) {
+    if (!session) {
       return NextResponse.json(
-        { error: "Application not found." },
-        { status: 404 },
+        { error: "Unauthorized." },
+        { status: 401 },
       );
     }
+
+    const { id } = await params;
+
+    const existingApplication = await prisma.application.findFirst({
+  where: {
+    id,
+    userId: session.user.id,
+  },
+});
+
+if (!existingApplication) {
+  return NextResponse.json(
+    { error: "Application not found." },
+    { status: 404 },
+  );
+}
 
     await prisma.application.delete({
       where: { id },
