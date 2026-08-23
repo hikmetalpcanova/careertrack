@@ -1,3 +1,4 @@
+import { StatusBadge } from "@/components/StatusBadge";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -33,7 +34,7 @@ export default async function ApplicationDetailPage({
         </Link>
 
         <div className="mt-6 rounded-xl border border-gray-200 bg-white p-8">
-          <div className="mb-8 flex items-start justify-between">
+          <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h1 className="text-3xl font-bold">
                 {application.company}
@@ -44,10 +45,8 @@ export default async function ApplicationDetailPage({
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
-  <span className="rounded-full bg-gray-100 px-3 py-1 text-sm font-medium">
-    {application.status}
-  </span>
+            <div className="flex flex-wrap items-center gap-3">
+  <StatusBadge status={application.status} />
 
   <Link
     href={`/applications/${application.id}/edit`}

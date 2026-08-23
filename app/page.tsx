@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
+import ApplicationList from "@/components/ApplicationList";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen bg-gray-50 p-8 text-gray-900">
       <div className="mx-auto max-w-6xl">
-        <header className="mb-10 flex items-center justify-between">
+       <header className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold">CareerTrack</h1>
             <p className="mt-1 text-gray-500">
@@ -22,7 +23,7 @@ export default async function Home() {
 
           <Link
   href="/applications/new"
-  className="rounded-lg bg-black px-5 py-3 text-sm font-medium text-white"
+ className="w-full rounded-lg bg-black px-5 py-3 text-center text-sm font-medium text-white sm:w-auto"
 >
   + Add Application
 </Link>
@@ -56,42 +57,21 @@ export default async function Home() {
 />
         </section>
 
-        <section className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-          <div className="border-b border-gray-200 p-6">
-            <h2 className="text-xl font-semibold">Applications</h2>
-          </div>
-
-          <div className="divide-y divide-gray-100">
-            {applications.map((application) => (
-              <Link
-  key={application.id}
-  href={`/applications/${application.id}`}
-  className="flex items-center justify-between p-6 transition-colors hover:bg-gray-50"
->
-                <div>
-                  <h3 className="font-semibold">{application.company}</h3>
-                  <p className="text-sm text-gray-500">
-                    {application.position}
-                  </p>
-                </div>
-
-                <div className="text-right">
-                  <p className="text-sm font-medium">{application.status}</p>
-                  <p className="text-sm text-gray-400">
-  {(application.appliedAt ?? application.createdAt).toLocaleDateString(
-  "en-GB",
-  {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  },
-)}
-</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+        <ApplicationList
+  applications={applications.map((application) => ({
+    id: application.id,
+    company: application.company,
+    position: application.position,
+    status: application.status,
+    date: (
+      application.appliedAt ?? application.createdAt
+    ).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }),
+  }))}
+/>
       </div>
     </main>
   );
