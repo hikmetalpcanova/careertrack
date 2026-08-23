@@ -1,11 +1,22 @@
 import prisma from "@/lib/prisma";
 import { ApplicationStatus } from "@/generated/prisma/enums";
 import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
 
 const validStatuses = new Set<string>(Object.values(ApplicationStatus));
 
 export async function POST(request: Request) {
   try {
+    const session = await auth.api.getSession({
+  headers: request.headers,
+});
+
+if (!session) {
+  return NextResponse.json(
+    { error: "Unauthorized." },
+    { status: 401 },
+  );
+}
     const body = await request.json();
 
     const {
@@ -91,6 +102,8 @@ export async function POST(request: Request) {
           typeof notes === "string" && notes.trim()
             ? notes.trim()
             : null,
+
+            userId: session.user.id,
       },
     });
 

@@ -1,6 +1,9 @@
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import EditApplicationForm from "./EditApplicationForm";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -11,9 +14,20 @@ export default async function EditApplicationPage({
 }) {
   const { id } = await params;
 
-  const application = await prisma.application.findUnique({
-    where: { id },
-  });
+const session = await auth.api.getSession({
+  headers: await headers(),
+});
+
+if (!session) {
+  redirect("/sign-in");
+}
+
+const application = await prisma.application.findFirst({
+  where: {
+    id,
+    userId: session.user.id,
+  },
+});
 
   if (!application) {
     notFound();
