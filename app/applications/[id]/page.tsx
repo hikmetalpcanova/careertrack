@@ -3,9 +3,7 @@ import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import DeleteApplicationButton from "./DeleteApplicationButton";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { requireSession } from "@/lib/require-session";
 
 export const dynamic = "force-dynamic";
 
@@ -15,13 +13,7 @@ export default async function ApplicationDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-const session = await auth.api.getSession({
-  headers: await headers(),
-});
-
-if (!session) {
-  redirect("/sign-in");
-}
+const session = await requireSession();
  const application = await prisma.application.findFirst({
   where: {
     id,

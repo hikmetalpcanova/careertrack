@@ -1,19 +1,11 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { requireSession } from "@/lib/require-session";
 
 export default async function ApplicationsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) {
-    redirect("/sign-in");
-  }
+  await requireSession();
 
   return children;
 }
