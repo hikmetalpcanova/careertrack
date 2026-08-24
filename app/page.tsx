@@ -1,6 +1,4 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { requireSession } from "@/lib/require-session";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import ApplicationList from "@/components/ApplicationList";
@@ -9,13 +7,7 @@ import SignOutButton from "@/components/SignOutButton";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) {
-    redirect("/sign-in");
-  }
+  const session = await requireSession();
 
   const applications = await prisma.application.findMany({
     where: {

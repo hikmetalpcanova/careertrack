@@ -1,9 +1,8 @@
 import prisma from "@/lib/prisma";
-import { ApplicationStatus } from "@/generated/prisma/enums";
+import { parseApplicationInput } from "@/lib/application-input";
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 
-const validStatuses = new Set<string>(Object.values(ApplicationStatus));
 
 export async function PATCH(
   request: Request,
@@ -25,11 +24,11 @@ export async function PATCH(
     const body = await request.json();
 
     const existingApplication = await prisma.application.findFirst({
-  where: {
-    id,
-    userId: session.user.id,
-  },
-});
+      where: {
+        id,
+        userId: session.user.id,
+      },
+    });
 
     if (!existingApplication) {
       return NextResponse.json(
@@ -38,91 +37,18 @@ export async function PATCH(
       );
     }
 
-    const {
-      company,
-      position,
-      status,
-      jobUrl,
-      appliedAt,
-      deadline,
-      notes,
-    } = body;
+    const parsed = parseApplicationInput(body);
 
-    if (
-      typeof company !== "string" ||
-      !company.trim() ||
-      typeof position !== "string" ||
-      !position.trim()
-    ) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "Company and position are required." },
-        { status: 400 },
-      );
-    }
-
-    if (
-      typeof status !== "string" ||
-      !validStatuses.has(status)
-    ) {
-      return NextResponse.json(
-        { error: "Invalid application status." },
-        { status: 400 },
-      );
-    }
-
-    let normalizedJobUrl: string | null = null;
-
-    if (typeof jobUrl === "string" && jobUrl.trim()) {
-      try {
-        const url = new URL(jobUrl.trim());
-
-        if (!["http:", "https:"].includes(url.protocol)) {
-          throw new Error("Invalid protocol");
-        }
-
-        normalizedJobUrl = url.toString();
-      } catch {
-        return NextResponse.json(
-          { error: "Job URL must be a valid HTTP or HTTPS URL." },
-          { status: 400 },
-        );
-      }
-    }
-
-    const parsedAppliedAt =
-      typeof appliedAt === "string" && appliedAt
-        ? new Date(appliedAt)
-        : null;
-
-    const parsedDeadline =
-      typeof deadline === "string" && deadline
-        ? new Date(deadline)
-        : null;
-
-    if (
-      (parsedAppliedAt && Number.isNaN(parsedAppliedAt.getTime())) ||
-      (parsedDeadline && Number.isNaN(parsedDeadline.getTime()))
-    ) {
-      return NextResponse.json(
-        { error: "Invalid date." },
+        { error: parsed.error },
         { status: 400 },
       );
     }
 
     const application = await prisma.application.update({
       where: { id },
-      data: {
-        company: company.trim(),
-        position: position.trim(),
-        status: status as ApplicationStatus,
-        jobUrl: normalizedJobUrl,
-        appliedAt: parsedAppliedAt,
-        deadline: parsedDeadline,
-        notes:
-          typeof notes === "string" && notes.trim()
-            ? notes.trim()
-            : null,
-      },
+      data: parsed.data,
     });
 
     return NextResponse.json(application);
