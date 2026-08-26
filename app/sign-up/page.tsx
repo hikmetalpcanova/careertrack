@@ -63,7 +63,7 @@ export default function SignUpPage() {
 
           <form
             onSubmit={handleSubmit}
-            className="space-y-5 rounded-xl border border-gray-200 bg-white p-8"
+            className="space-y-5 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8"
           >
             <div>
               <label
@@ -78,7 +78,7 @@ export default function SignUpPage() {
                 name="name"
                 type="text"
                 required
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
+                className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 outline-none transition focus:border-gray-900 focus:bg-white"
               />
             </div>
 
@@ -95,7 +95,7 @@ export default function SignUpPage() {
                 name="email"
                 type="email"
                 required
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
+                className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 outline-none transition focus:border-gray-900 focus:bg-white"
               />
             </div>
 
@@ -113,7 +113,7 @@ export default function SignUpPage() {
                 type="password"
                 required
                 minLength={8}
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
+                className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 outline-none transition focus:border-gray-900 focus:bg-white"
               />
 
               <p className="mt-2 text-xs text-gray-500">
@@ -130,7 +130,7 @@ export default function SignUpPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full rounded-lg bg-black px-5 py-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+              className="w-full rounded-lg bg-black px-5 py-3 text-sm font-medium text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting ? "Creating account..." : "Create account"}
             </button>
