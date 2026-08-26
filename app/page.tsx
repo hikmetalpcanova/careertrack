@@ -18,34 +18,45 @@ export default async function Home() {
     },
   });
   return (
-    <main className="min-h-screen bg-gray-50 p-8 text-gray-900">
+    <main className="min-h-screen bg-gray-50 px-4 py-6 text-gray-900 sm:px-6 sm:py-8 lg:px-8">
       <div className="mx-auto max-w-6xl">
-       <header className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-  <h1 className="text-3xl font-bold">CareerTrack</h1>
+       <header className="mb-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-7">
+  <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+        Application Tracker
+      </p>
 
-  <p className="mt-1 text-gray-500">
-    Track your job and internship applications.
-  </p>
+      <h1 className="text-3xl font-bold tracking-tight">
+        CareerTrack
+      </h1>
 
-  <p className="mt-1 text-sm text-gray-500">
-    Signed in as {session.user.name}
-  </p>
-</div>
+      <p className="mt-2 text-gray-500">
+        Track your job and internship applications.
+      </p>
 
-          <div className="flex w-full gap-3 sm:w-auto">
-  <SignOutButton />
+      <p className="mt-3 text-sm text-gray-400">
+        Signed in as{" "}
+        <span className="font-medium text-gray-600">
+          {session.user.name}
+        </span>
+      </p>
+    </div>
 
-  <Link
-    href="/applications/new"
-    className="flex-1 rounded-lg bg-black px-5 py-3 text-center text-sm font-medium text-white sm:flex-none"
-  >
-    + Add Application
-  </Link>
-</div>
-        </header>
+    <div className="flex w-full gap-3 sm:w-auto">
+      <SignOutButton />
 
-        <section className="mb-10 grid gap-4 md:grid-cols-4">
+      <Link
+        href="/applications/new"
+        className="flex-1 rounded-lg bg-black px-5 py-3 text-center text-sm font-medium text-white transition hover:bg-gray-800 sm:flex-none"
+      >
+        + Add Application
+      </Link>
+    </div>
+  </div>
+</header>
+
+        <section className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
           <StatCard
   title="Total Applications"
   value={applications.length.toString()}
@@ -101,9 +112,14 @@ function StatCard({
   value: string;
 }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-6">
-      <p className="text-sm text-gray-500">{title}</p>
-      <p className="mt-2 text-3xl font-bold">{value}</p>
+    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+      <p className="text-sm font-medium text-gray-500">
+        {title}
+      </p>
+
+      <p className="mt-3 text-3xl font-bold tracking-tight text-gray-950">
+        {value}
+      </p>
     </div>
   );
 }

@@ -56,7 +56,7 @@ export default function NewApplicationPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 p-8 text-gray-900">
+    <main className="min-h-screen bg-gray-50 px-4 py-6 text-gray-900 sm:px-6 sm:py-8">
       <div className="mx-auto max-w-2xl">
         <div className="mb-8">
           <Link
@@ -77,7 +77,7 @@ export default function NewApplicationPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-6 rounded-xl border border-gray-200 bg-white p-8"
+          className="space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8"
         >
           <div>
             <label
@@ -93,7 +93,7 @@ export default function NewApplicationPage() {
               type="text"
               required
               placeholder="e.g. Booking.com"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
+              className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 outline-none transition focus:border-gray-900 focus:bg-white"
             />
           </div>
 
@@ -111,7 +111,7 @@ export default function NewApplicationPage() {
               type="text"
               required
               placeholder="e.g. Software Engineering Intern"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
+              className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 outline-none transition focus:border-gray-900 focus:bg-white"
             />
           </div>
 
@@ -127,7 +127,7 @@ export default function NewApplicationPage() {
               id="status"
               name="status"
               defaultValue="SAVED"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
+              className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 outline-none transition focus:border-gray-900 focus:bg-white"
             >
               <option value="SAVED">Saved</option>
               <option value="APPLIED">Applied</option>
@@ -150,11 +150,11 @@ export default function NewApplicationPage() {
               name="jobUrl"
               type="url"
               placeholder="https://..."
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
+              className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 outline-none transition focus:border-gray-900 focus:bg-white"
             />
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label
                 htmlFor="appliedAt"
@@ -167,7 +167,7 @@ export default function NewApplicationPage() {
                 id="appliedAt"
                 name="appliedAt"
                 type="date"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
+                className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 outline-none transition focus:border-gray-900 focus:bg-white"
               />
             </div>
 
@@ -183,7 +183,7 @@ export default function NewApplicationPage() {
                 id="deadline"
                 name="deadline"
                 type="date"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
+                className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 outline-none transition focus:border-gray-900 focus:bg-white"
               />
             </div>
           </div>
@@ -201,7 +201,7 @@ export default function NewApplicationPage() {
               name="notes"
               rows={5}
               placeholder="Add any notes..."
-              className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
+              className="w-full resize-none rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 outline-none transition focus:border-gray-900 focus:bg-white"
             />
           </div>
 
@@ -211,10 +211,10 @@ export default function NewApplicationPage() {
             </p>
           )}
 
-          <div className="flex items-center justify-end gap-3">
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
             <Link
               href="/"
-              className="rounded-lg border border-gray-300 px-5 py-3 text-sm font-medium"
+              className="rounded-lg border border-gray-300 px-5 py-3 text-center text-sm font-medium transition hover:bg-gray-50"
             >
               Cancel
             </Link>
@@ -222,7 +222,7 @@ export default function NewApplicationPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="rounded-lg bg-black px-5 py-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-lg bg-black px-5 py-3 text-sm font-medium text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting ? "Saving..." : "Save Application"}
             </button>

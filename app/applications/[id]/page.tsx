@@ -26,7 +26,7 @@ const session = await requireSession();
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 p-8 text-gray-900">
+    <main className="min-h-screen bg-gray-50 px-4 py-6 text-gray-900 sm:px-6 sm:py-8">
       <div className="mx-auto max-w-3xl">
         <Link
           href="/"
@@ -35,36 +35,38 @@ const session = await requireSession();
           ← Back to dashboard
         </Link>
 
-        <div className="mt-6 rounded-xl border border-gray-200 bg-white p-8">
-          <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <h1 className="text-3xl font-bold">
-                {application.company}
-              </h1>
+        <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
+         <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+  <div className="min-w-0">
+    <div className="mb-3">
+      <StatusBadge status={application.status} />
+    </div>
 
-              <p className="mt-2 text-lg text-gray-500">
-                {application.position}
-              </p>
-            </div>
+    <h1 className="wrap-break-word text-3xl font-bold tracking-tight">
+      {application.company}
+    </h1>
 
-            <div className="flex flex-wrap items-center gap-3">
-  <StatusBadge status={application.status} />
+    <p className="mt-2 text-lg text-gray-500">
+      {application.position}
+    </p>
+  </div>
 
-  <Link
-    href={`/applications/${application.id}/edit`}
-    className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white"
-  >
-    Edit Application
-  </Link>
+  <div className="flex flex-wrap gap-3">
+    <Link
+      href={`/applications/${application.id}/edit`}
+      className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800"
+    >
+      Edit Application
+    </Link>
 
-  <DeleteApplicationButton
-    applicationId={application.id}
-    company={application.company}
-  />
+    <DeleteApplicationButton
+      applicationId={application.id}
+      company={application.company}
+    />
+  </div>
 </div>
-          </div>
 
-          <div className="grid gap-6 border-t border-gray-200 pt-6 md:grid-cols-2">
+          <div className="grid gap-x-8 gap-y-6 border-t border-gray-200 pt-6 sm:grid-cols-2">
             <DetailItem
               label="Application Date"
               value={
@@ -95,9 +97,9 @@ const session = await requireSession();
           </div>
 
           <div className="mt-8 border-t border-gray-200 pt-6">
-            <p className="text-sm font-medium text-gray-500">
-              Job URL
-            </p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+  Job URL
+</p>
 
             {application.jobUrl ? (
               <a
@@ -114,9 +116,9 @@ const session = await requireSession();
           </div>
 
           <div className="mt-8 border-t border-gray-200 pt-6">
-            <p className="text-sm font-medium text-gray-500">
-              Notes
-            </p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+  Notes
+</p>
 
             <p className="mt-2 whitespace-pre-wrap">
               {application.notes || "No notes added."}
@@ -137,8 +139,13 @@ function DetailItem({
 }) {
   return (
     <div>
-      <p className="text-sm font-medium text-gray-500">{label}</p>
-      <p className="mt-1">{value}</p>
+      <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+        {label}
+      </p>
+
+      <p className="mt-2 font-medium text-gray-900">
+        {value}
+      </p>
     </div>
   );
 }

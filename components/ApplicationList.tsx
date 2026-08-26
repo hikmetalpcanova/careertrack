@@ -47,7 +47,7 @@ export default function ApplicationList({
   });
 
   return (
-    <section className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+    <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
       <div className="border-b border-gray-200 p-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <h2 className="text-xl font-semibold">Applications</h2>
@@ -58,13 +58,13 @@ export default function ApplicationList({
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Search company or position..."
-              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-gray-900 sm:w-64"
+              className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-sm outline-none transition focus:border-gray-900 focus:bg-white sm:w-72"
             />
 
             <select
               value={status}
               onChange={(event) => setStatus(event.target.value)}
-              className="rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-gray-900"
+              className="rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-sm outline-none transition focus:border-gray-900 focus:bg-white"
             >
               {statuses.map((statusOption) => (
                 <option key={statusOption} value={statusOption}>
@@ -96,10 +96,10 @@ export default function ApplicationList({
             <Link
               key={application.id}
               href={`/applications/${application.id}`}
-              className="flex flex-col gap-3 p-6 transition-colors hover:bg-gray-50 sm:flex-row sm:items-center sm:justify-between"
+              className="group flex flex-col gap-3 p-5 transition-colors hover:bg-gray-50 sm:flex-row sm:items-center sm:justify-between sm:p-6"
             >
               <div>
-                <h3 className="font-semibold">
+                <h3 className="font-semibold transition-colors group-hover:text-black">
                   {application.company}
                 </h3>
 
@@ -108,13 +108,22 @@ export default function ApplicationList({
                 </p>
               </div>
 
-              <div className="flex items-center justify-between gap-4 sm:block sm:text-right">
-                <StatusBadge status={application.status} />
+              <div className="flex items-center justify-between gap-4 sm:gap-5">
+  <div className="sm:text-right">
+    <StatusBadge status={application.status} />
 
-                <p className="mt-0 text-sm text-gray-400 sm:mt-2">
-                  {application.date}
-                </p>
-              </div>
+    <p className="mt-1.5 text-sm text-gray-400">
+      {application.date}
+    </p>
+  </div>
+
+  <span
+    aria-hidden="true"
+    className="hidden text-lg text-gray-300 transition group-hover:translate-x-1 group-hover:text-gray-500 sm:block"
+  >
+    →
+  </span>
+</div>
             </Link>
           ))}
         </div>
