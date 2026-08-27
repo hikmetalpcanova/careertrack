@@ -274,7 +274,7 @@ These features are intentionally outside the initial V1 scope so the first relea
 
 CareerTrack is deployed and functional in production.
 
-The project is currently approaching its **V1.0 release**.
+**Current stable release: v1.0.0**
 
 ---
 
