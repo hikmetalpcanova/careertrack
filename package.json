@@ -1,16 +1,16 @@
 {
   "name": "careertrack",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start",
-  "lint": "eslint",
-  "test": "vitest run",
-  "test:watch": "vitest",
-  "postinstall": "prisma generate"
-},
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "postinstall": "prisma generate"
+  },
   "dependencies": {
     "@better-auth/prisma-adapter": "^1.7.1",
     "@prisma/adapter-pg": "^7.9.1",
